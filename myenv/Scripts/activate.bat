@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=F:\Dell\Web\230728_Modul_11_FastAPI\src\myenv
+set VIRTUAL_ENV=F:\Dell\Web\230731_Modul_12_JWT_rep\HW12_FastAPI_ver_1\myenv
 
 if not defined PROMPT set PROMPT=$P$G
 

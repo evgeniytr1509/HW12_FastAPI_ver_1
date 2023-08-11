@@ -7,11 +7,15 @@ import contextlib
 from typing import AsyncIterator
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
-
+from conf.config import config
 
 
 SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:567234@195.201.150.230:5433/evgeniy_rt_fa" #
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+
+
+
 
 class DatabaseSessionManager:
     def __init__(self, url: str):
@@ -20,6 +24,11 @@ class DatabaseSessionManager:
                                                                             autoflush=False,
                                                                             expire_on_commit=False,
                                                                             bind=self._engine)
+
+
+
+
+
 
     @contextlib.asynccontextmanager
     async def session(self) -> AsyncIterator[AsyncSession]:
@@ -34,6 +43,9 @@ class DatabaseSessionManager:
         finally:
             await session.close()
 
+
+
+
 # Dependency
 async def get_db():
     async with sessionmanager.session() as session:
@@ -45,18 +57,16 @@ async def get_db():
 Base = declarative_base()
 
 
-# Создаем базу данных, если она не существует
-#Base.metadata.create_all(bind=engine)
 
 # Функция для получения сессии базы данных
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 
